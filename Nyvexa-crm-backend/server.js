@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { ensureDeviceId } from "./middlewares/device.middleware.js";
+import { verifyUser } from "./middlewares/auth.middleware.js";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import clientRoutes from "./routes/client.routes.js";
@@ -24,6 +25,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(ensureDeviceId);
+app.use(verifyUser);
 
 // Routes
 app.get("/", (req, res) => res.send("Server running..."));
