@@ -106,3 +106,24 @@ export const login = async (req, res) => {
   }
 };
 
+export const me = async (req, res) => {
+  const user = req.user;
+
+  res.json({
+    user: {
+      id: user._id,
+      fullName: user.fullName,
+      role: user.role.name,
+    },
+  });
+};
+
+export const logout = async (req, res) => {
+  await Session.updateOne(
+    { sessionToken: req.sessionToken },
+    { isValid: false }
+  );
+
+  res.clearCookie("session");
+  res.json({ success: true });
+};
